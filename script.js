@@ -11,15 +11,18 @@ const prevPageButton = document.getElementById("prevPage");
 const nextPageButton = document.getElementById("nextPage");
 const pageInfo = document.getElementById("pageInfo");
 
+const zoomOutButton = document.getElementById("zoomOut");
+const zoomInButton = document.getElementById("zoomIn");
+const zoomInfo = document.getElementById("zoomInfo");
+
 const rowMarker = document.getElementById("rowMarker");
-
-
 
 let pdfDoc = null;
 let currentPage = 1;
 let totalPages = 0;
 
 let markerTop = 50;
+let pdfScale = 1.5;
 
 pdfInput.addEventListener("change", async (event) => {
   const file = event.target.files[0];
@@ -34,6 +37,8 @@ pdfInput.addEventListener("change", async (event) => {
     pdfDoc = await pdfjsLib.getDocument(typedArray).promise;
     totalPages = pdfDoc.numPages;
     currentPage = 1;
+    markerTop = 50;
+    pdfScale = 1.5;
 
     await renderPage(currentPage);
   };
@@ -42,9 +47,10 @@ pdfInput.addEventListener("change", async (event) => {
 });
 
 async function renderPage(pageNumber) {
-  const page = await pdfDoc.getPage(pageNumber);
+  if (!pdfDoc) return;
 
-  const viewport = page.getViewport({ scale: 1.5 });
+  const page = await pdfDoc.getPage(pageNumber);
+  const viewport = page.getViewport({ scale: pdfScale });
 
   canvas.width = viewport.width;
   canvas.height = viewport.height;
@@ -55,6 +61,10 @@ async function renderPage(pageNumber) {
   }).promise;
 
   pageInfo.textContent = `${currentPage} / ${totalPages}`;
+
+  if (zoomInfo) {
+    zoomInfo.textContent = `${Math.round(pdfScale * 100)}%`;
+  }
 
   updateMarker();
 }
@@ -72,6 +82,34 @@ nextPageButton.addEventListener("click", async () => {
   currentPage++;
   await renderPage(currentPage);
 });
+
+if (zoomOutButton) {
+  zoomOutButton.addEventListener("click", async () => {
+    if (!pdfDoc) return;
+
+    pdfScale -= 0.25;
+
+    if (pdfScale < 0.75) {
+      pdfScale = 0.75;
+    }
+
+    await renderPage(currentPage);
+  });
+}
+
+if (zoomInButton) {
+  zoomInButton.addEventListener("click", async () => {
+    if (!pdfDoc) return;
+
+    pdfScale += 0.25;
+
+    if (pdfScale > 4) {
+      pdfScale = 4;
+    }
+
+    await renderPage(currentPage);
+  });
+}
 
 document.getElementById("upSmall").addEventListener("click", () => {
   moveMarker(-1);
@@ -95,12 +133,16 @@ document.querySelectorAll(".color-button").forEach((button) => {
   });
 });
 
-
 function moveMarker(amount) {
   markerTop += amount;
 
-  if (markerTop < 0) markerTop = 0;
-  if (markerTop > 100) markerTop = 100;
+  if (markerTop < 0) {
+    markerTop = 0;
+  }
+
+  if (markerTop > 100) {
+    markerTop = 100;
+  }
 
   updateMarker();
 }
@@ -108,7 +150,6 @@ function moveMarker(amount) {
 function updateMarker() {
   rowMarker.style.top = `${markerTop}%`;
 }
-
 
 function setMarkerColor(color) {
   const colors = {
