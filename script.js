@@ -146,8 +146,14 @@ document.getElementById("heightUp").addEventListener("click", () => {
 });
 
 
-function moveMarker(amount) {
-  markerTop += amount;
+function moveMarker(rowCount) {
+  const canvasHeight = canvas.height;
+
+  if (!canvasHeight) return;
+
+  const movePercent = (rowHeight * rowCount / canvasHeight) * 100;
+
+  markerTop += movePercent;
 
   if (markerTop < 0) {
     markerTop = 0;
