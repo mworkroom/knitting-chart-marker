@@ -13,7 +13,7 @@ const pageInfo = document.getElementById("pageInfo");
 
 const rowMarker = document.getElementById("rowMarker");
 
-const markerColorSelect = document.getElementById("markerColor");
+
 
 let pdfDoc = null;
 let currentPage = 1;
@@ -89,10 +89,12 @@ document.getElementById("downLarge").addEventListener("click", () => {
   moveMarker(5);
 });
 
-
-markerColorSelect.addEventListener("change", () => {
-  setMarkerColor(markerColorSelect.value);
+document.querySelectorAll(".color-button").forEach((button) => {
+  button.addEventListener("click", () => {
+    setMarkerColor(button.dataset.color);
+  });
 });
+
 
 function moveMarker(amount) {
   markerTop += amount;
