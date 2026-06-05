@@ -54,6 +54,8 @@ async function renderPage(pageNumber) {
 
   canvas.width = viewport.width;
   canvas.height = viewport.height;
+  canvas.style.width = `${viewport.width}px`;
+  canvas.style.height = `${viewport.height}px`;
 
   await page.render({
     canvasContext: ctx,
@@ -162,3 +164,26 @@ function setMarkerColor(color) {
 
   rowMarker.style.background = colors[color] || colors.blue;
 }
+
+
+const markerControls = document.querySelector(".marker-controls");
+
+function updateFloatingControlsPosition() {
+  if (!markerControls || !window.visualViewport) return;
+
+  const viewport = window.visualViewport;
+
+  markerControls.style.position = "fixed";
+  markerControls.style.right = "auto";
+  markerControls.style.left = `${viewport.offsetLeft + viewport.width - markerControls.offsetWidth - 12}px`;
+  markerControls.style.top = `${viewport.offsetTop + viewport.height / 2}px`;
+  markerControls.style.transform = "translateY(-50%)";
+}
+
+if (window.visualViewport) {
+  window.visualViewport.addEventListener("resize", updateFloatingControlsPosition);
+  window.visualViewport.addEventListener("scroll", updateFloatingControlsPosition);
+}
+
+window.addEventListener("load", updateFloatingControlsPosition);
+window.addEventListener("resize", updateFloatingControlsPosition);
