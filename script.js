@@ -123,13 +123,15 @@ document.getElementById("downSmall").addEventListener("click", () => {
   moveMarker(1);
 });
 
-document.getElementById("upLarge").addEventListener("click", () => {
-  moveMarker(-5);
+
+document.getElementById("nudgeUp").addEventListener("click", () => {
+  nudgeMarker(-1);
 });
 
-document.getElementById("downLarge").addEventListener("click", () => {
-  moveMarker(5);
+document.getElementById("nudgeDown").addEventListener("click", () => {
+  nudgeMarker(1);
 });
+
 
 document.querySelectorAll(".color-button").forEach((button) => {
   button.addEventListener("click", () => {
@@ -216,6 +218,27 @@ function changeMarkerHeight(amount) {
 
   if (rowHeight > 80) {
     rowHeight = 80;
+  }
+
+  updateMarker();
+}
+
+
+function nudgeMarker(pixelAmount) {
+  const canvasHeight = canvas.height;
+
+  if (!canvasHeight) return;
+
+  const movePercent = (pixelAmount / canvasHeight) * 100;
+
+  markerTop += movePercent;
+
+  if (markerTop < 0) {
+    markerTop = 0;
+  }
+
+  if (markerTop > 100) {
+    markerTop = 100;
   }
 
   updateMarker();
