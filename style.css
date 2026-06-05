@@ -171,3 +171,15 @@ button:hover,
   pointer-events: none;
 }
 
+
+.zoom-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+#zoomInfo {
+  min-width: 56px;
+  text-align: center;
+  color: var(--muted);
+}
