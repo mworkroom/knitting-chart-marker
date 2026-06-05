@@ -24,6 +24,7 @@ body {
   max-width: 900px;
   margin: 0 auto;
   padding: 16px;
+  padding-bottom: 96px;
 }
 
 .app-header {
@@ -43,11 +44,26 @@ body {
 
 .toolbar,
 .marker-controls {
+  position: fixed;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  z-index: 1000;
+
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-  align-items: center;
-  margin-bottom: 12px;
+  justify-content: center;
+
+  width: calc(100% - 32px);
+  max-width: 720px;
+
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 10px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
 button,
@@ -110,6 +126,13 @@ button:hover,
   height: 18px;
   background: var(--marker);
   pointer-events: none;
-  border-top: 1px solid rgba(180, 140, 0, 0.35);
-  border-bottom: 1px solid rgba(180, 140, 0, 0.35);
+}
+
+select {
+  border: 1px solid var(--border);
+  background: var(--button);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 15px;
 }
