@@ -13,6 +13,8 @@ const pageInfo = document.getElementById("pageInfo");
 
 const rowMarker = document.getElementById("rowMarker");
 
+const markerColorSelect = document.getElementById("markerColor");
+
 let pdfDoc = null;
 let currentPage = 1;
 let totalPages = 0;
@@ -87,6 +89,11 @@ document.getElementById("downLarge").addEventListener("click", () => {
   moveMarker(5);
 });
 
+
+markerColorSelect.addEventListener("change", () => {
+  setMarkerColor(markerColorSelect.value);
+});
+
 function moveMarker(amount) {
   markerTop += amount;
 
@@ -98,4 +105,17 @@ function moveMarker(amount) {
 
 function updateMarker() {
   rowMarker.style.top = `${markerTop}%`;
+}
+
+
+function setMarkerColor(color) {
+  const colors = {
+    yellow: "rgba(255, 230, 120, 0.45)",
+    blue: "rgba(96, 165, 250, 0.40)",
+    pink: "rgba(244, 114, 182, 0.38)",
+    green: "rgba(74, 222, 128, 0.38)",
+    gray: "rgba(156, 163, 175, 0.40)"
+  };
+
+  rowMarker.style.background = colors[color] || colors.yellow;
 }
