@@ -42,7 +42,14 @@ body {
   font-size: 14px;
 }
 
-.toolbar,
+.toolbar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
 .marker-controls {
   position: fixed;
   left: 50%;
