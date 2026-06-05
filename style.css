@@ -158,7 +158,7 @@ button:hover,
 
 #pdfCanvas {
   display: block;
-  max-width: 100%;
+  max-width: none;
 }
 
 #rowMarker {
