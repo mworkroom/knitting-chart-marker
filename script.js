@@ -119,5 +119,5 @@ function setMarkerColor(color) {
     gray: "rgba(156, 163, 175, 0.40)"
   };
 
-  rowMarker.style.background = colors[color] || colors.yellow;
+  rowMarker.style.background = colors[color] || colors.blue;
 }
