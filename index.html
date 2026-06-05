@@ -1,1 +1,52 @@
-<h1>Hello World</h1>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Knitting Chart Marker</title>
+  <meta name="theme-color" content="#f7f7f8">
+
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" href="./icon.png">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="app-header">
+      <h1>Knitting Chart Marker</h1>
+      <p>PDF chart row marker</p>
+    </header>
+
+    <section class="toolbar">
+      <label class="file-button">
+        PDF 열기
+        <input type="file" id="pdfInput" accept="application/pdf">
+      </label>
+
+      <div class="page-controls">
+        <button id="prevPage">이전 페이지</button>
+        <span id="pageInfo">- / -</span>
+        <button id="nextPage">다음 페이지</button>
+      </div>
+    </section>
+
+    <section class="viewer-wrap">
+      <div id="pdfContainer">
+        <canvas id="pdfCanvas"></canvas>
+        <div id="rowMarker"></div>
+      </div>
+    </section>
+
+    <section class="marker-controls">
+      <button id="upLarge">▲ 5칸</button>
+      <button id="upSmall">▲ 1칸</button>
+      <button id="downSmall">▼ 1칸</button>
+      <button id="downLarge">▼ 5칸</button>
+    </section>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs" type="module"></script>
+  <script src="./script.js" type="module"></script>
+</body>
+</html>
