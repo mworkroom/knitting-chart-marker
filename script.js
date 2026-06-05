@@ -23,6 +23,7 @@ let totalPages = 0;
 
 let markerTop = 50;
 let pdfScale = 1.5;
+let rowHeight = 18;
 
 pdfInput.addEventListener("change", async (event) => {
   const file = event.target.files[0];
@@ -38,6 +39,7 @@ pdfInput.addEventListener("change", async (event) => {
     totalPages = pdfDoc.numPages;
     currentPage = 1;
     markerTop = 50;
+    rowHeight = 18;
     pdfScale = 1.5;
 
     await renderPage(currentPage);
@@ -135,6 +137,15 @@ document.querySelectorAll(".color-button").forEach((button) => {
   });
 });
 
+document.getElementById("heightDown").addEventListener("click", () => {
+  changeMarkerHeight(-2);
+});
+
+document.getElementById("heightUp").addEventListener("click", () => {
+  changeMarkerHeight(2);
+});
+
+
 function moveMarker(amount) {
   markerTop += amount;
 
@@ -151,6 +162,7 @@ function moveMarker(amount) {
 
 function updateMarker() {
   rowMarker.style.top = `${markerTop}%`;
+  rowMarker.style.height = `${rowHeight}px`;
 }
 
 function setMarkerColor(color) {
@@ -187,3 +199,18 @@ if (window.visualViewport) {
 
 window.addEventListener("load", updateFloatingControlsPosition);
 window.addEventListener("resize", updateFloatingControlsPosition);
+
+
+function changeMarkerHeight(amount) {
+  rowHeight += amount;
+
+  if (rowHeight < 6) {
+    rowHeight = 6;
+  }
+
+  if (rowHeight > 80) {
+    rowHeight = 80;
+  }
+
+  updateMarker();
+}
