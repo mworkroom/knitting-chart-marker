@@ -54,14 +54,22 @@ async function renderPage(pageNumber) {
   const page = await pdfDoc.getPage(pageNumber);
   const viewport = page.getViewport({ scale: pdfScale });
 
-  canvas.width = viewport.width;
-  canvas.height = viewport.height;
+  const outputScale = window.devicePixelRatio || 1;
+
+  canvas.width = Math.floor(viewport.width * outputScale);
+  canvas.height = Math.floor(viewport.height * outputScale);
+
   canvas.style.width = `${viewport.width}px`;
   canvas.style.height = `${viewport.height}px`;
 
+  const transform = outputScale !== 1
+    ? [outputScale, 0, 0, outputScale, 0, 0]
+    : null;
+
   await page.render({
     canvasContext: ctx,
-    viewport: viewport
+    viewport: viewport,
+    transform: transform
   }).promise;
 
   pageInfo.textContent = `${currentPage} / ${totalPages}`;
