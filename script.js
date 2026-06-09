@@ -252,5 +252,4 @@ function nudgeMarker(pixelAmount) {
   updateMarker();
 }
 
-  updateMarker();
-}
+
