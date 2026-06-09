@@ -157,7 +157,7 @@ document.getElementById("heightUp").addEventListener("click", () => {
 
 
 function moveMarker(rowCount) {
-  const canvasHeight = canvas.height;
+  const canvasHeight = canvas.clientHeight;
 
   if (!canvasHeight) return;
 
@@ -233,7 +233,7 @@ function changeMarkerHeight(amount) {
 
 
 function nudgeMarker(pixelAmount) {
-  const canvasHeight = canvas.height;
+  const canvasHeight = canvas.clientHeight;
 
   if (!canvasHeight) return;
 
@@ -248,6 +248,9 @@ function nudgeMarker(pixelAmount) {
   if (markerTop > 100) {
     markerTop = 100;
   }
+
+  updateMarker();
+}
 
   updateMarker();
 }
