@@ -186,3 +186,42 @@ button:hover,
   text-align: center;
   color: var(--muted);
 }
+
+
+.control-divider {
+  width: 28px;
+  height: 1px;
+  background: var(--border);
+  margin: 2px 0;
+}
+
+.vertical-mode-button {
+  width: 42px;
+  height: 38px;
+  padding: 0;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.vertical-mode-button.active {
+  border-color: #111827;
+  background: #e5e7eb;
+}
+
+.vertical-marker {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  background: rgba(17, 24, 39, 0.48);
+  border-left: 1px solid rgba(255, 255, 255, 0.75);
+  border-right: 1px solid rgba(255, 255, 255, 0.75);
+  cursor: ew-resize;
+  touch-action: none;
+  display: none;
+  z-index: 20;
+}
+
+#verticalMarker2 {
+  background: rgba(107, 114, 128, 0.48);
+}
