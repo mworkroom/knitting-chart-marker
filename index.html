@@ -41,6 +41,8 @@
       <div id="pdfContainer">
         <canvas id="pdfCanvas"></canvas>
         <div id="rowMarker"></div>
+        <div id="verticalMarker1" class="vertical-marker" aria-label="Vertical marker 1"></div>
+        <div id="verticalMarker2" class="vertical-marker" aria-label="Vertical marker 2"></div>
       </div>
     </section>
 
@@ -52,6 +54,11 @@
       
       <button id="heightDown">H−</button>
       <button id="heightUp">H＋</button>
+
+      <div class="control-divider"></div>
+      <button class="vertical-mode-button active" data-vertical-mode="0">V0</button>
+      <button class="vertical-mode-button" data-vertical-mode="1">V1</button>
+      <button class="vertical-mode-button" data-vertical-mode="2">V2</button>
     
       <button class="color-button color-blue" data-color="blue" aria-label="Blue marker"></button>
       <button class="color-button color-yellow" data-color="yellow" aria-label="Yellow marker"></button>
