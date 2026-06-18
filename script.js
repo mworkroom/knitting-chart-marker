@@ -16,6 +16,9 @@ const zoomInButton = document.getElementById("zoomIn");
 const zoomInfo = document.getElementById("zoomInfo");
 
 const rowMarker = document.getElementById("rowMarker");
+const verticalMarker1 = document.getElementById("verticalMarker1");
+const verticalMarker2 = document.getElementById("verticalMarker2");
+const verticalModeButtons = document.querySelectorAll(".vertical-mode-button");
 
 let pdfDoc = null;
 let currentPage = 1;
@@ -24,6 +27,11 @@ let totalPages = 0;
 let markerTop = 50;
 let pdfScale = 1.5;
 let rowHeight = 18;
+
+let verticalMode = 0; // 0 = 없음, 1 = 1줄, 2 = 2줄
+let verticalMarker1Left = 35; // percent
+let verticalMarker2Left = 65; // percent
+let activeVerticalMarker = null;
 
 pdfInput.addEventListener("change", async (event) => {
   const file = event.target.files[0];
@@ -41,6 +49,9 @@ pdfInput.addEventListener("change", async (event) => {
     markerTop = 50;
     rowHeight = 18;
     pdfScale = 1.5;
+    verticalMode = 0;
+    verticalMarker1Left = 35;
+    verticalMarker2Left = 65;
 
     await renderPage(currentPage);
   };
@@ -79,6 +90,7 @@ async function renderPage(pageNumber) {
   }
 
   updateMarker();
+  updateVerticalMarkers();
 }
 
 prevPageButton.addEventListener("click", async () => {
@@ -154,6 +166,16 @@ document.getElementById("heightDown").addEventListener("click", () => {
 document.getElementById("heightUp").addEventListener("click", () => {
   changeMarkerHeight(2);
 });
+
+
+verticalModeButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    setVerticalMode(Number(button.dataset.verticalMode));
+  });
+});
+
+setupVerticalMarkerDrag(verticalMarker1, 1);
+setupVerticalMarkerDrag(verticalMarker2, 2);
 
 
 function moveMarker(rowCount) {
@@ -253,3 +275,82 @@ function nudgeMarker(pixelAmount) {
 }
 
 
+
+
+
+function setVerticalMode(mode) {
+  verticalMode = mode;
+  updateVerticalMarkers();
+}
+
+function updateVerticalMarkers() {
+  if (!verticalMarker1 || !verticalMarker2) return;
+
+  verticalMarker1.style.display = verticalMode >= 1 ? "block" : "none";
+  verticalMarker2.style.display = verticalMode >= 2 ? "block" : "none";
+
+  verticalMarker1.style.left = `calc(${verticalMarker1Left}% - ${verticalMarker1.offsetWidth / 2}px)`;
+  verticalMarker2.style.left = `calc(${verticalMarker2Left}% - ${verticalMarker2.offsetWidth / 2}px)`;
+
+  verticalModeButtons.forEach((button) => {
+    const isActive = Number(button.dataset.verticalMode) === verticalMode;
+    button.classList.toggle("active", isActive);
+  });
+}
+
+function setupVerticalMarkerDrag(marker, markerNumber) {
+  if (!marker) return;
+
+  marker.addEventListener("pointerdown", (event) => {
+    if (!canvas.clientWidth) return;
+
+    activeVerticalMarker = markerNumber;
+    marker.setPointerCapture(event.pointerId);
+    moveVerticalMarker(event, markerNumber);
+  });
+
+  marker.addEventListener("pointermove", (event) => {
+    if (activeVerticalMarker !== markerNumber) return;
+
+    moveVerticalMarker(event, markerNumber);
+  });
+
+  marker.addEventListener("pointerup", (event) => {
+    if (activeVerticalMarker !== markerNumber) return;
+
+    activeVerticalMarker = null;
+    marker.releasePointerCapture(event.pointerId);
+  });
+
+  marker.addEventListener("pointercancel", () => {
+    if (activeVerticalMarker === markerNumber) {
+      activeVerticalMarker = null;
+    }
+  });
+}
+
+function moveVerticalMarker(event, markerNumber) {
+  const rect = canvas.getBoundingClientRect();
+
+  if (!rect.width) return;
+
+  let leftPercent = ((event.clientX - rect.left) / rect.width) * 100;
+
+  if (leftPercent < 0) {
+    leftPercent = 0;
+  }
+
+  if (leftPercent > 100) {
+    leftPercent = 100;
+  }
+
+  if (markerNumber === 1) {
+    verticalMarker1Left = leftPercent;
+  }
+
+  if (markerNumber === 2) {
+    verticalMarker2Left = leftPercent;
+  }
+
+  updateVerticalMarkers();
+}
