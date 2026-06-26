@@ -198,6 +198,11 @@ keyboardCapture.addEventListener("keydown", handleKeyboardShortcut);
 keyboardCapture.addEventListener("keyup", updateKeyDebug);
 document.addEventListener("pointerdown", focusKeyboardTarget, { capture: true });
 document.addEventListener("touchstart", focusKeyboardTarget, { capture: true });
+document.addEventListener("click", refocusKeyboardTargetSoon, { capture: true });
+document.addEventListener("pointerup", refocusKeyboardTargetSoon, { capture: true });
+document.addEventListener("touchend", refocusKeyboardTargetSoon, { capture: true });
+window.addEventListener("focus", refocusKeyboardTargetSoon);
+window.addEventListener("pageshow", refocusKeyboardTargetSoon);
 
 focusKeyboardTarget();
 
@@ -239,6 +244,10 @@ function handleKeyboardShortcut(event) {
 
 function focusKeyboardTarget() {
   keyboardCapture.focus({ preventScroll: true });
+}
+
+function refocusKeyboardTargetSoon() {
+  window.setTimeout(focusKeyboardTarget, 0);
 }
 
 function createKeyboardCapture() {
