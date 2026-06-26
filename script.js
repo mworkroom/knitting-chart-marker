@@ -177,6 +177,21 @@ verticalModeButtons.forEach((button) => {
 setupVerticalMarkerDrag(verticalMarker1, 1);
 setupVerticalMarkerDrag(verticalMarker2, 2);
 
+// Bluetooth remote shortcuts on iPad
+// Left arrow: move the horizontal highlighter down one row
+// Right arrow: move the horizontal highlighter up one row
+document.addEventListener("keydown", (event) => {
+  if (event.key === "ArrowLeft") {
+    event.preventDefault();
+    moveMarker(1);
+  }
+
+  if (event.key === "ArrowRight") {
+    event.preventDefault();
+    moveMarker(-1);
+  }
+});
+
 
 function moveMarker(rowCount) {
   const canvasHeight = canvas.clientHeight;
