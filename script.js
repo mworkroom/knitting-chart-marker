@@ -186,40 +186,76 @@ verticalModeButtons.forEach((button) => {
 setupVerticalMarkerDrag(verticalMarker1, 1);
 setupVerticalMarkerDrag(verticalMarker2, 2);
 
+const keyDebug = createKeyDebug();
+
 // Bluetooth remote shortcuts on iPad
 // Left arrow: move the horizontal highlighter down one row
 // Right arrow: move the horizontal highlighter up one row
-window.addEventListener(
-  "keydown",
-  (event) => {
-    const key = event.key;
-    const code = event.code;
-    const keyCode = event.keyCode;
+window.addEventListener("keydown", handleKeyboardShortcut, { capture: true });
+document.addEventListener("pointerdown", focusKeyboardTarget, { capture: true });
+document.addEventListener("touchstart", focusKeyboardTarget, { capture: true });
 
-    const isLeft =
-      key === "ArrowLeft" ||
-      key === "Left" ||
-      code === "ArrowLeft" ||
-      keyCode === 37;
+focusKeyboardTarget();
 
-    const isRight =
-      key === "ArrowRight" ||
-      key === "Right" ||
-      code === "ArrowRight" ||
-      keyCode === 39;
+function handleKeyboardShortcut(event) {
+  const key = event.key;
+  const code = event.code;
+  const keyCode = event.keyCode;
 
-    if (isLeft) {
-      event.preventDefault();
-      moveMarker(1);
-    }
+  updateKeyDebug(event);
 
-    if (isRight) {
-      event.preventDefault();
-      moveMarker(-1);
-    }
-  },
-  { capture: true }
-);
+  const isLeft =
+    key === "ArrowLeft" ||
+    key === "Left" ||
+    code === "ArrowLeft" ||
+    keyCode === 37;
+
+  const isRight =
+    key === "ArrowRight" ||
+    key === "Right" ||
+    code === "ArrowRight" ||
+    keyCode === 39;
+
+  if (!isLeft && !isRight) return;
+
+  event.preventDefault();
+  event.stopPropagation();
+
+  if (isLeft) {
+    moveMarker(1);
+  }
+
+  if (isRight) {
+    moveMarker(-1);
+  }
+}
+
+function focusKeyboardTarget() {
+  if (canvas) {
+    canvas.focus({ preventScroll: true });
+  }
+}
+
+function createKeyDebug() {
+  const shouldShow =
+    window.location.hash === "#debug-keys" ||
+    window.location.search.includes("debugKeys=1");
+
+  if (!shouldShow) return null;
+
+  const element = document.createElement("div");
+  element.className = "key-debug";
+  element.textContent = "Last key: none";
+  document.body.appendChild(element);
+  return element;
+}
+
+function updateKeyDebug(event) {
+  if (!keyDebug) return;
+
+  keyDebug.textContent =
+    `Last key: key=${event.key} code=${event.code} keyCode=${event.keyCode}`;
+}
 
 
 function moveMarker(rowCount) {
