@@ -28,7 +28,7 @@ let markerTop = 50;
 let pdfScale = 1.5;
 let rowHeight = 18;
 
-let verticalMode = 0; // 0 = 없음, 1 = 1줄, 2 = 2줄
+let verticalMode = 0; // 0 = none, 1 = one marker, 2 = two markers
 let verticalMarker1Left = 35; // percent
 let verticalMarker2Left = 65; // percent
 let activeVerticalMarker = null;

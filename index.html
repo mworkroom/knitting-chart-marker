@@ -6,9 +6,6 @@
   <link rel="apple-touch-icon" href="./apple-touch-icon.png">
   <title>Knitting Chart Marker</title>
   <meta name="theme-color" content="#f7f7f8">
-
-  <link rel="manifest" href="./manifest.json">
-  <link rel="apple-touch-icon" href="./icon.png">
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
@@ -26,12 +23,13 @@
       <div class="page-controls">
         <button id="prevPage">PREV</button>
         <button id="nextPage">NEXT</button>
+        <span id="pageInfo">- / -</span>
       </div>
 
       <div class="zoom-controls">
-  <button id="zoomOut">−</button>
-  <span id="zoomInfo">150%</span>
-  <button id="zoomIn">＋</button>
+        <button id="zoomOut">-</button>
+        <span id="zoomInfo">150%</span>
+        <button id="zoomIn">+</button>
       </div>
     </section>
 
@@ -45,27 +43,25 @@
     </section>
 
     <section class="marker-controls">
-      <button id="nudgeUp">O▲</button>
-      <button id="upSmall">R▲</button>
-      <button id="downSmall">R▼</button>
-      <button id="nudgeDown">O▼</button>
-      
-      <button id="heightDown">H−</button>
-      <button id="heightUp">H＋</button>
+      <button id="nudgeUp">Up</button>
+      <button id="upSmall">Row Up</button>
+      <button id="downSmall">Row Down</button>
+      <button id="nudgeDown">Down</button>
+
+      <button id="heightDown">H-</button>
+      <button id="heightUp">H+</button>
 
       <div class="control-divider"></div>
       <button class="vertical-mode-button active" data-vertical-mode="0">V0</button>
       <button class="vertical-mode-button" data-vertical-mode="1">V1</button>
       <button class="vertical-mode-button" data-vertical-mode="2">V2</button>
-    
+
       <button class="color-button color-blue" data-color="blue" aria-label="Blue marker"></button>
       <button class="color-button color-yellow" data-color="yellow" aria-label="Yellow marker"></button>
       <button class="color-button color-pink" data-color="pink" aria-label="Pink marker"></button>
       <button class="color-button color-green" data-color="green" aria-label="Green marker"></button>
       <button class="color-button color-gray" data-color="gray" aria-label="Gray marker"></button>
     </section>
-
-    
   </main>
 
   <script src="./script.js" type="module"></script>
