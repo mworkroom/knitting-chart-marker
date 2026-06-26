@@ -180,17 +180,37 @@ setupVerticalMarkerDrag(verticalMarker2, 2);
 // Bluetooth remote shortcuts on iPad
 // Left arrow: move the horizontal highlighter down one row
 // Right arrow: move the horizontal highlighter up one row
-document.addEventListener("keydown", (event) => {
-  if (event.key === "ArrowLeft") {
-    event.preventDefault();
-    moveMarker(1);
-  }
+window.addEventListener(
+  "keydown",
+  (event) => {
+    const key = event.key;
+    const code = event.code;
+    const keyCode = event.keyCode;
 
-  if (event.key === "ArrowRight") {
-    event.preventDefault();
-    moveMarker(-1);
-  }
-});
+    const isLeft =
+      key === "ArrowLeft" ||
+      key === "Left" ||
+      code === "ArrowLeft" ||
+      keyCode === 37;
+
+    const isRight =
+      key === "ArrowRight" ||
+      key === "Right" ||
+      code === "ArrowRight" ||
+      keyCode === 39;
+
+    if (isLeft) {
+      event.preventDefault();
+      moveMarker(1);
+    }
+
+    if (isRight) {
+      event.preventDefault();
+      moveMarker(-1);
+    }
+  },
+  { capture: true }
+);
 
 
 function moveMarker(rowCount) {
