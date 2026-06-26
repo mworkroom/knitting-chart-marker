@@ -213,7 +213,7 @@ button:hover,
   top: 0;
   bottom: 0;
   width: 6px;
-  background: rgba(17, 24, 39, 0.48);
+  background: rgba(29, 29, 254, 0.48);
   border-left: 1px solid rgba(255, 255, 255, 0.75);
   border-right: 1px solid rgba(255, 255, 255, 0.75);
   cursor: ew-resize;
@@ -223,5 +223,5 @@ button:hover,
 }
 
 #verticalMarker2 {
-  background: rgba(107, 114, 128, 0.48);
+  background: rgba(29, 29, 254, 0.48);
 }
