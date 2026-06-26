@@ -186,18 +186,24 @@ verticalModeButtons.forEach((button) => {
 setupVerticalMarkerDrag(verticalMarker1, 1);
 setupVerticalMarkerDrag(verticalMarker2, 2);
 
+const keyboardCapture = createKeyboardCapture();
 const keyDebug = createKeyDebug();
 
 // Bluetooth remote shortcuts on iPad
 // Left arrow: move the horizontal highlighter down one row
 // Right arrow: move the horizontal highlighter up one row
 window.addEventListener("keydown", handleKeyboardShortcut, { capture: true });
+document.addEventListener("keydown", handleKeyboardShortcut, { capture: true });
+keyboardCapture.addEventListener("keydown", handleKeyboardShortcut);
+keyboardCapture.addEventListener("keyup", updateKeyDebug);
 document.addEventListener("pointerdown", focusKeyboardTarget, { capture: true });
 document.addEventListener("touchstart", focusKeyboardTarget, { capture: true });
 
 focusKeyboardTarget();
 
 function handleKeyboardShortcut(event) {
+  if (event.knittingMarkerHandled) return;
+
   const key = event.key;
   const code = event.code;
   const keyCode = event.keyCode;
@@ -220,6 +226,7 @@ function handleKeyboardShortcut(event) {
 
   event.preventDefault();
   event.stopPropagation();
+  event.knittingMarkerHandled = true;
 
   if (isLeft) {
     moveMarker(1);
@@ -231,9 +238,20 @@ function handleKeyboardShortcut(event) {
 }
 
 function focusKeyboardTarget() {
-  if (canvas) {
-    canvas.focus({ preventScroll: true });
-  }
+  keyboardCapture.focus({ preventScroll: true });
+}
+
+function createKeyboardCapture() {
+  const element = document.createElement("textarea");
+  element.className = "keyboard-capture";
+  element.setAttribute("aria-label", "Keyboard shortcut capture");
+  element.setAttribute("autocapitalize", "off");
+  element.setAttribute("autocomplete", "off");
+  element.setAttribute("autocorrect", "off");
+  element.setAttribute("spellcheck", "false");
+  element.inputMode = "none";
+  document.body.appendChild(element);
+  return element;
 }
 
 function createKeyDebug() {
