@@ -91,6 +91,7 @@ async function renderPage(pageNumber) {
 
   updateMarker();
   updateVerticalMarkers();
+  canvas.focus({ preventScroll: true });
 }
 
 prevPageButton.addEventListener("click", async () => {
@@ -137,40 +138,48 @@ if (zoomInButton) {
 
 document.getElementById("upSmall").addEventListener("click", () => {
   moveMarker(-1);
+  canvas.focus({ preventScroll: true });
 });
 
 document.getElementById("downSmall").addEventListener("click", () => {
   moveMarker(1);
+  canvas.focus({ preventScroll: true });
 });
 
 
 document.getElementById("nudgeUp").addEventListener("click", () => {
   nudgeMarker(-1);
+  canvas.focus({ preventScroll: true });
 });
 
 document.getElementById("nudgeDown").addEventListener("click", () => {
   nudgeMarker(1);
+  canvas.focus({ preventScroll: true });
 });
 
 
 document.querySelectorAll(".color-button").forEach((button) => {
   button.addEventListener("click", () => {
     setMarkerColor(button.dataset.color);
+    canvas.focus({ preventScroll: true });
   });
 });
 
 document.getElementById("heightDown").addEventListener("click", () => {
   changeMarkerHeight(-2);
+  canvas.focus({ preventScroll: true });
 });
 
 document.getElementById("heightUp").addEventListener("click", () => {
   changeMarkerHeight(2);
+  canvas.focus({ preventScroll: true });
 });
 
 
 verticalModeButtons.forEach((button) => {
   button.addEventListener("click", () => {
     setVerticalMode(Number(button.dataset.verticalMode));
+    canvas.focus({ preventScroll: true });
   });
 });
 
